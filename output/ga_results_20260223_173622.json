@@ -1,0 +1,31 @@
+{
+    "timestamp": "20260223_173622",
+    "ga_parameters": {
+        "population_size": 64,
+        "generations": 128,
+        "actual_generations": 46,
+        "early_stopped": true,
+        "early_stop_patience": 20,
+        "elite_size": 16,
+        "mutation_rate": 0.15,
+        "max_mdd": -15.0
+    },
+    "best_parameters": {
+        "fast_period": 12,
+        "slow_period": 34,
+        "leverage": 2.99,
+        "timeframe": "1h"
+    },
+    "training_performance": {
+        "ar": 132.96125615920084,
+        "mdd": -13.596565624688486,
+        "sharpe": 2.803543708523302,
+        "sortino": 3.952692695363915
+    },
+    "test_performance": {
+        "ar": 93.3816587171742,
+        "mdd": -20.43866633958521,
+        "sharpe": 2.0026610791269794,
+        "sortino": 2.8449197895674248
+    }
+}
