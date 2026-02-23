@@ -5,6 +5,7 @@ description = "MA Crossover Strategy Backtesting System for Tick Data (XAUUSD)"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "matplotlib>=3.10.8",
     "numpy>=1.26.0",
     "pandas>=3.0.1",
 ]

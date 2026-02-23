@@ -183,18 +183,19 @@ cython_debug/
 .vscode
 .claude
 
-# Data files (tick data is too large for git)
-data/2024
-data/2025
+# Data files (only keep XAUUSD for reproducibility)
+data/2024/*
+!data/2024/XAUUSD_1y_24.csv
+data/2025/*
+!data/2025/XAUUSD_1y_25.csv
 
 # Results and outputs
 results/
 *.png
 *.pdf
 
-# Optional directories (for future expansion)
-notebooks/
-src/
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
 
 # Windows specific
 nul
