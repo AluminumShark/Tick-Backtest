@@ -1,7 +1,16 @@
 [project]
 name = "tick-backtest"
 version = "0.1.0"
-description = "Add your description here"
+description = "MA Crossover Strategy Backtesting System for Tick Data (XAUUSD)"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "numpy>=1.26.0",
+    "pandas>=3.0.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/Tick-Backtest"
+
+[tool.uv]
+dev-dependencies = []

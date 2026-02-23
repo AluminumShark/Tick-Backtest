@@ -183,6 +183,23 @@ cython_debug/
 .vscode
 .claude
 
-# Data files
+# Data files (tick data is too large for git)
 data/2024
 data/2025
+
+# Results and outputs
+results/
+*.png
+*.pdf
+
+# Optional directories (for future expansion)
+notebooks/
+src/
+
+# Windows specific
+nul
+Thumbs.db
+desktop.ini
+
+# MacOS specific
+.DS_Store
