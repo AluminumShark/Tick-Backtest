@@ -181,6 +181,7 @@ cython_debug/
 .cursorindexingignore
 
 .vscode
+.claude
 
 # Data files
 data/
