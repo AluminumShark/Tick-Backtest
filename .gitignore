@@ -184,4 +184,5 @@ cython_debug/
 .claude
 
 # Data files
-data/
+data/2024
+data/2025
