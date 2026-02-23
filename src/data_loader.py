@@ -93,12 +93,22 @@ def resample_to_kline(df: pd.DataFrame, timeframe: str = '1h', verbose: bool = T
     # Resample to K-line with OHLC
     kline = df['price'].resample(timeframe).ohlc()
 
+    # Resample bid/ask close for realistic transaction cost modeling
+    kline['bid_close'] = df['bid'].resample(timeframe).last()
+    kline['ask_close'] = df['ask'].resample(timeframe).last()
+    kline['spread'] = kline['ask_close'] - kline['bid_close']
+
     # Remove rows with NaN (periods with no data)
     kline = kline.dropna()
 
     if verbose:
-        print(f"Tick data: {len(df):,} rows")
-        print(f"K-lines: {len(kline):,} bars")
-        print(f"Compression ratio: {len(kline)/len(df)*100:.2f}%")
+        tick_count = len(df)
+        bar_count = len(kline)
+        avg_spread = kline['spread'].mean()
+        avg_spread_pct = (kline['spread'] / kline['close']).mean() * 100
+        print(f"Tick data: {tick_count:,} rows")
+        print(f"K-lines: {bar_count:,} bars")
+        print(f"Compression ratio: {bar_count/tick_count*100:.3f}%")
+        print(f"Average spread: {avg_spread:.4f} ({avg_spread_pct:.4f}% of price)")
 
     return kline

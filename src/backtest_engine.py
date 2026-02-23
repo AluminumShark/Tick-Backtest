@@ -2,6 +2,7 @@
 Backtesting Engine Module
 
 Executes trading strategies and tracks positions, trades, and returns.
+Per-bar return calculation with bid-ask spread transaction costs.
 """
 
 import pandas as pd
@@ -11,7 +12,8 @@ class BacktestEngine:
     """
     Backtesting engine for executing trading strategies.
 
-    Tracks position changes, calculates returns, and analyzes trade statistics.
+    Tracks position changes, calculates per-bar returns with leverage
+    and transaction costs from bid-ask spread.
     """
 
     def __init__(self, leverage: float = 1.0):
@@ -46,7 +48,7 @@ class BacktestEngine:
         # Task 4.1: Track positions
         kline = self._track_positions(kline, verbose)
 
-        # Task 4.2: Calculate returns
+        # Task 4.2: Calculate per-bar returns with transaction costs
         kline = self._calculate_returns(kline, verbose)
 
         return kline
@@ -83,50 +85,106 @@ class BacktestEngine:
 
     def _calculate_returns(self, kline: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
         """
-        Calculate returns for each trade with leverage applied.
+        Calculate per-bar returns with leverage and bid-ask spread costs.
+
+        Returns are computed every bar (not just at trade close):
+        - Holding bars: price change * leverage
+        - Entry bars: deduct half-spread cost
+        - Exit bars: deduct half-spread cost
 
         Args:
             kline: DataFrame with positions
             verbose: Whether to print return statistics
 
         Returns:
-            DataFrame with returns (leveraged)
+            DataFrame with per-bar returns (in percentage)
         """
-        # Track position changes
-        kline['position_change'] = kline['positions'].diff()
+        # Per-bar price change (%)
+        kline['pct_change'] = kline['close'].pct_change().fillna(0)
 
-        # Track entry prices (forward fill until close)
+        # Position changes for identifying entries/exits
+        kline['position_change'] = kline['positions'].diff().fillna(0)
+
+        # Per-bar strategy returns:
+        # Use shifted position — signal fires at bar close, returns start next bar
+        kline['returns'] = (
+            kline['pct_change'] * kline['positions'].shift(1).fillna(0) * self.leverage * 100
+        )
+
+        # Deduct bid-ask spread on entry and exit
+        if 'spread' in kline.columns:
+            spread_pct = (kline['spread'] / kline['close']) * 100
+            entry_mask = kline['position_change'] == 1
+            exit_mask = kline['position_change'] == -1
+            kline.loc[entry_mask, 'returns'] -= spread_pct[entry_mask] / 2
+            kline.loc[exit_mask, 'returns'] -= spread_pct[exit_mask] / 2
+
+        # Track entry prices for reference
         kline['entry_price'] = kline['close'].where(kline['position_change'] == 1).ffill()
 
-        # Calculate returns only when closing position (in percentage) with leverage
-        kline['returns'] = 0.0
-        kline.loc[kline['position_change'] == -1, 'returns'] = (
-            (kline['close'] - kline['entry_price']) / kline['entry_price'] * 100 * self.leverage
-        )
+        # Always build trade log (needed by callers even when verbose=False)
+        self._build_trade_log(kline)
 
         if verbose:
             self._print_trade_statistics(kline)
 
         return kline
 
+    def _build_trade_log(self, kline: pd.DataFrame):
+        """Build a summary of individual trades from per-bar returns."""
+        entries = kline.index[kline['position_change'] == 1]
+        exits = kline.index[kline['position_change'] == -1]
+
+        trade_list = []
+        for entry_time in entries:
+            exit_candidates = exits[exits > entry_time]
+            if len(exit_candidates) == 0:
+                continue
+            exit_time = exit_candidates[0]
+
+            # Sum per-bar returns from entry bar through exit bar
+            mask = (kline.index >= entry_time) & (kline.index <= exit_time)
+            trade_return = kline.loc[mask, 'returns'].sum()
+
+            trade_list.append({
+                'entry_time': entry_time,
+                'exit_time': exit_time,
+                'entry_price': kline.loc[entry_time, 'close'],
+                'exit_price': kline.loc[exit_time, 'close'],
+                'returns': trade_return,
+                'duration': exit_time - entry_time,
+            })
+
+        if trade_list:
+            self.trades = pd.DataFrame(trade_list)
+            self.winning_trades = self.trades[self.trades['returns'] > 0]
+            self.losing_trades = self.trades[self.trades['returns'] <= 0]
+        else:
+            self.trades = pd.DataFrame()
+            self.winning_trades = pd.DataFrame()
+            self.losing_trades = pd.DataFrame()
+
     def _print_trade_statistics(self, kline: pd.DataFrame):
         """Print detailed trade statistics."""
         print("\nTask 4.2: Trade Statistics")
 
-        self.trades = kline[kline['returns'] != 0]
-        self.winning_trades = self.trades[self.trades['returns'] > 0]
-        self.losing_trades = self.trades[self.trades['returns'] < 0]
+        if self.trades is None or self.trades.empty:
+            print("No trades executed")
+            return
 
-        print(f"Total trades: {len(self.trades)}")
-        print(f"Winning trades: {len(self.winning_trades)} ({len(self.winning_trades)/len(self.trades)*100:.1f}%)")
-        print(f"Losing trades: {len(self.losing_trades)} ({len(self.losing_trades)/len(self.trades)*100:.1f}%)")
-        print(f"\nAverage return per trade: {self.trades['returns'].mean():.2f}%")
-        print(f"Best trade: {self.trades['returns'].max():.2f}%")
-        print(f"Worst trade: {self.trades['returns'].min():.2f}%")
-        print(f"Total cumulative return: {self.trades['returns'].sum():.2f}%")
+        trades = self.trades
+        n_total = len(trades)
+        n_wins = len(self.winning_trades)
+        n_losses = len(self.losing_trades)
 
-        print("\nTop 5 Winning Trades:")
-        print(self.trades.nlargest(5, 'returns')[['close', 'entry_price', 'returns']])
+        print(f"Total trades: {n_total}")
+        print(f"Winning trades: {n_wins} ({n_wins/n_total*100:.1f}%)")
+        print(f"Losing trades: {n_losses} ({n_losses/n_total*100:.1f}%)")
+        print(f"\nAverage return per trade: {trades['returns'].mean():.2f}%")
+        print(f"Best trade: {trades['returns'].max():.2f}%")
+        print(f"Worst trade: {trades['returns'].min():.2f}%")
+        print(f"Total cumulative return: {trades['returns'].sum():.2f}%")
 
-        print("\nTop 5 Losing Trades:")
-        print(self.trades.nsmallest(5, 'returns')[['close', 'entry_price', 'returns']])
+        if 'spread' in kline.columns:
+            avg_spread_pct = (kline['spread'] / kline['close']).mean() * 100
+            print(f"\nAvg spread cost per trade: {avg_spread_pct:.4f}%")
