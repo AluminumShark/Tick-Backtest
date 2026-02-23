@@ -183,11 +183,8 @@ cython_debug/
 .vscode
 .claude
 
-# Data files (only keep XAUUSD for reproducibility)
-data/2024/*
-!data/2024/XAUUSD_1y_24.csv
-data/2025/*
-!data/2025/XAUUSD_1y_25.csv
+# Data files (too large for GitHub)
+data/
 
 # Results and outputs
 results/
