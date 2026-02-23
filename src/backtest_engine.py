@@ -75,7 +75,7 @@ class BacktestEngine:
         kline['positions'] = positions
 
         if verbose:
-            print(f"\nTask 4.1: Position Tracking")
+            print("\nTask 4.1: Position Tracking")
             print(f"Total hours in market: {kline['positions'].sum():,.0f}")
             print(f"Market exposure: {kline['positions'].sum() / len(kline) * 100:.2f}%")
 
@@ -111,7 +111,7 @@ class BacktestEngine:
 
     def _print_trade_statistics(self, kline: pd.DataFrame):
         """Print detailed trade statistics."""
-        print(f"\nTask 4.2: Trade Statistics")
+        print("\nTask 4.2: Trade Statistics")
 
         self.trades = kline[kline['returns'] != 0]
         self.winning_trades = self.trades[self.trades['returns'] > 0]
@@ -125,8 +125,8 @@ class BacktestEngine:
         print(f"Worst trade: {self.trades['returns'].min():.2f}%")
         print(f"Total cumulative return: {self.trades['returns'].sum():.2f}%")
 
-        print(f"\nTop 5 Winning Trades:")
+        print("\nTop 5 Winning Trades:")
         print(self.trades.nlargest(5, 'returns')[['close', 'entry_price', 'returns']])
 
-        print(f"\nTop 5 Losing Trades:")
+        print("\nTop 5 Losing Trades:")
         print(self.trades.nsmallest(5, 'returns')[['close', 'entry_price', 'returns']])

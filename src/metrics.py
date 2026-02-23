@@ -108,7 +108,6 @@ class PerformanceMetrics:
         """Calculate Sharpe Ratio."""
         trades = kline[kline['returns'] != 0]
         returns = trades['returns']
-        days = (kline.index[-1] - kline.index[0]).days
         annualization_factor = 252 / len(trades)
         sharpe_ratio = returns.mean() / returns.std() * np.sqrt(annualization_factor)
 
@@ -122,7 +121,6 @@ class PerformanceMetrics:
         trades = kline[kline['returns'] != 0]
         returns = trades['returns']
         downside_returns = returns[returns < 0]
-        days = (kline.index[-1] - kline.index[0]).days
         annualization_factor = 252 / len(trades)
         sortino_ratio = returns.mean() / downside_returns.std() * np.sqrt(annualization_factor)
 

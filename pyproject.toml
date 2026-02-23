@@ -14,4 +14,7 @@ dependencies = [
 Homepage = "https://github.com/yourusername/Tick-Backtest"
 
 [tool.uv]
-dev-dependencies = []
+dev-dependencies = [
+    "ruff>=0.15.2",
+    "ty>=0.0.18",
+]

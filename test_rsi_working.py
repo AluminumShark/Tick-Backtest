@@ -23,7 +23,7 @@ print("=" * 60)
 strategy = MACrossoverStrategy(fast_period=28, slow_period=100)
 # Note: We did NOT pass rsi_period!
 
-print(f"\nStrategy parameters:")
+print("\nStrategy parameters:")
 print(f"  fast_period: {strategy.fast_period}")
 print(f"  slow_period: {strategy.slow_period}")
 print(f"  rsi_period: {strategy.rsi_period}")  # Should be 14 (default)
@@ -36,13 +36,13 @@ if 'rsi' in kline.columns:
     print("\n" + "=" * 60)
     print("SUCCESS! RSI is working!")
     print("=" * 60)
-    print(f"\nRSI Statistics:")
+    print("\nRSI Statistics:")
     print(f"  Mean: {kline['rsi'].mean():.2f}")
     print(f"  Min: {kline['rsi'].min():.2f}")
     print(f"  Max: {kline['rsi'].max():.2f}")
 
     # Show first few rows
-    print(f"\nFirst 5 rows with RSI:")
+    print("\nFirst 5 rows with RSI:")
     print(kline[['close', 'ma_fast', 'ma_slow', 'rsi', 'signal']].head())
 else:
     print("\nERROR: RSI is NOT working!")

@@ -126,9 +126,9 @@ def main():
 
         # Overall verdict
         if sharpe_diff > 0:
-            print(f"\n   [+] RSI filter improves risk-adjusted returns!")
+            print("\n   [+] RSI filter improves risk-adjusted returns!")
         else:
-            print(f"\n   [-] RSI filter does not improve performance on this dataset")
+            print("\n   [-] RSI filter does not improve performance on this dataset")
 
     print("\n" + "=" * 80)
     print(" RECOMMENDATION")

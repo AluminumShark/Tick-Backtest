@@ -5,7 +5,6 @@ Implements various trading strategies and technical indicators.
 """
 
 import pandas as pd
-import numpy as np
 
 
 class MACrossoverStrategy:
@@ -61,7 +60,7 @@ class MACrossoverStrategy:
 
         if verbose:
             print(f"Valid data points after indicator calculation: {len(kline):,}")
-            print(f"\nTask 3.3: Generating Trading Signals with RSI Filter")
+            print("\nTask 3.3: Generating Trading Signals with RSI Filter")
 
         # Initialize signal column
         kline['signal'] = 0

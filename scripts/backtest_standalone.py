@@ -109,7 +109,7 @@ def calculate_ma_indicators(kline: pd.DataFrame, fast_period: int, slow_period: 
 
     # Print signal statistics
     signal_counts = kline['signal'].value_counts().sort_index()
-    print(f"\nSignal Statistics:")
+    print("\nSignal Statistics:")
     print(f"  Golden Cross (Buy):  {signal_counts.get(1, 0)}")
     print(f"  Death Cross (Sell):  {signal_counts.get(-1, 0)}")
     print(f"  Total crossovers:    {len(kline[kline['signal'] != 0])}")
@@ -185,7 +185,7 @@ def run_backtest(kline: pd.DataFrame, leverage: float = 1.0) -> pd.DataFrame:
     winning_trades = trades[trades['returns'] > 0]
     losing_trades = trades[trades['returns'] < 0]
 
-    print(f"\nTrade Statistics:")
+    print("\nTrade Statistics:")
     print(f"  Total trades:    {len(trades)}")
     print(f"  Winning trades:  {len(winning_trades)} ({len(winning_trades)/len(trades)*100:.1f}%)")
     print(f"  Losing trades:   {len(losing_trades)} ({len(losing_trades)/len(trades)*100:.1f}%)")
@@ -197,7 +197,7 @@ def run_backtest(kline: pd.DataFrame, leverage: float = 1.0) -> pd.DataFrame:
     return kline
 
 
-def calculate_performance_metrics(kline: pd.DataFrame, initial_capital: float = 10000) -> dict:
+def calculate_performance_metrics(kline: pd.DataFrame, initial_capital: float = 10000) -> tuple[dict, pd.DataFrame]:
     """
     Calculate performance metrics.
 

@@ -4,10 +4,12 @@ Data Loading and Preprocessing Module
 Handles tick data loading, validation, and resampling to OHLC candlesticks.
 """
 
+import os
+
 import pandas as pd
 
 
-def load_tick_data(file_path: str, verbose: bool = True) -> pd.DataFrame:
+def load_tick_data(file_path: str | os.PathLike, verbose: bool = True) -> pd.DataFrame:
     """
     Load tick data from CSV file.
 

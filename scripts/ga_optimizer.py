@@ -16,9 +16,8 @@ Goal: Maximize Sharpe Ratio while controlling maximum drawdown
 import sys
 from pathlib import Path
 import random
-import numpy as np
 import pandas as pd
-from typing import List, Tuple
+from typing import List
 import json
 from datetime import datetime
 
@@ -390,7 +389,7 @@ def run_ga():
     print("=" * 80)
 
     best_individual = best_history[-1]
-    print(f"\nBest Individual:")
+    print("\nBest Individual:")
     print(f"   MA({best_individual.fast_period}/{best_individual.slow_period})")
     print(f"   Leverage: {best_individual.leverage}x")
     print(f"   Annual Return: {best_individual.ar:.2f}%")
@@ -407,9 +406,9 @@ def run_ga():
     df_test = preprocess_data(df_test, verbose=False)
     kline_test = resample_to_kline(df_test, timeframe=TIMEFRAME, verbose=False)
 
-    test_fitness = evaluate_fitness(best_individual, kline_test)
+    evaluate_fitness(best_individual, kline_test)
 
-    print(f"\nTest Results:")
+    print("\nTest Results:")
     print(f"   Annual Return: {best_individual.ar:.2f}%")
     print(f"   Max Drawdown: {best_individual.mdd:.2f}%")
     print(f"   Sharpe Ratio: {best_individual.sharpe:.2f}")
