@@ -2,7 +2,7 @@
 
 MA Crossover + RSI momentum filter strategy backtested on XAUUSD tick data.
 
-**[View Notebook on Google Colab](https://colab.research.google.com/github/yourusername/Tick-Backtest/blob/main/notebooks/backtest.ipynb)**
+**[View Notebook on Google Colab](https://colab.research.google.com/github/AluminumShark/Tick-Backtest/blob/main/notebooks/backtest.ipynb)**
 
 ## Strategy
 
