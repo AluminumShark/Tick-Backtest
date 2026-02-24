@@ -1,9 +1,9 @@
 {
-    "timestamp": "20260223_173622",
+    "timestamp": "20260224_093407",
     "ga_parameters": {
         "population_size": 64,
         "generations": 128,
-        "actual_generations": 46,
+        "actual_generations": 34,
         "early_stopped": true,
         "early_stop_patience": 20,
         "elite_size": 16,
@@ -13,19 +13,19 @@
     "best_parameters": {
         "fast_period": 12,
         "slow_period": 34,
-        "leverage": 2.99,
+        "leverage": 3.28,
         "timeframe": "1h"
     },
     "training_performance": {
-        "ar": 132.96125615920084,
-        "mdd": -13.596565624688486,
-        "sharpe": 2.803543708523302,
-        "sortino": 3.952692695363915
+        "ar": 151.8418562740096,
+        "mdd": -14.852856213272197,
+        "sharpe": 2.807501081872845,
+        "sortino": 3.958373591475132
     },
     "test_performance": {
-        "ar": 93.3816587171742,
-        "mdd": -20.43866633958521,
-        "sharpe": 2.0026610791269794,
-        "sortino": 2.8449197895674248
+        "ar": 104.87182252828711,
+        "mdd": -22.240607360186782,
+        "sharpe": 2.00453143363012,
+        "sortino": 2.847602973989912
     }
 }

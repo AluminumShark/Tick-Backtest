@@ -44,7 +44,7 @@ EARLY_STOP_PATIENCE = 20  # Stop if no improvement for N generations
 # Gene Ranges
 FAST_PERIOD_RANGE = (5, 30)      # Fast MA period range
 SLOW_PERIOD_RANGE = (30, 100)    # Slow MA period range
-LEVERAGE_RANGE = (1.0, 3.0)      # Leverage range
+LEVERAGE_RANGE = (1.0, 5.0)      # Leverage range
 
 # Constraints
 MAX_MDD = -15.0           # Maximum acceptable drawdown
