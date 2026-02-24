@@ -174,6 +174,8 @@ class BacktestEngine:
 
         trades = self.trades
         n_total = len(trades)
+        assert self.winning_trades is not None
+        assert self.losing_trades is not None
         n_wins = len(self.winning_trades)
         n_losses = len(self.losing_trades)
 
