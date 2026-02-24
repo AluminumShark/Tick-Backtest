@@ -18,11 +18,11 @@ def main():
     print("=" * 60)
 
     # Configuration
-    DATA_FILE = "data/2025/XAUUSD_1y_25.csv"  # Change to 2024 or 2025
+    DATA_FILE = "data/2025/XAUUSD_1y_25.csv"
     TIMEFRAME = '1h'
-    FAST_PERIOD = 20
-    SLOW_PERIOD = 50
-    LEVERAGE = 2.0  # Leverage multiplier (1.0 = no leverage)
+    FAST_PERIOD = 12
+    SLOW_PERIOD = 34
+    LEVERAGE = 3.28  # Leverage multiplier
     INITIAL_CAPITAL = 10000
 
     # Phase 1-2: Load and preprocess data
