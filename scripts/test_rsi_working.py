@@ -4,7 +4,7 @@ Quick test to verify RSI is working in the strategy
 
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.data_loader import load_tick_data, preprocess_data, resample_to_kline
 from src.strategy import MACrossoverStrategy
