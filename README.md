@@ -10,18 +10,18 @@ MA Crossover + RSI momentum filter strategy backtested on XAUUSD tick data.
 - **Filter**: RSI(14) blocks buy when overbought (>=70), blocks sell when oversold (<=30)
 - **Position**: Long-only. Buy on Golden Cross, sell on Death Cross, flat in between.
 - **Timeframe**: 1-hour OHLC resampled from tick data
-- **Leverage**: 2.99x (GA-optimized)
+- **Leverage**: 3.28x (GA-optimized)
 
 ## Results
 
-Parameters optimized with Genetic Algorithm (64 population, early stop at gen 46/128).
+Parameters optimized with Genetic Algorithm (64 population, early stop at gen 34/128).
 
 | Metric | Training (2024) | Validation (2025) |
 |--------|-----------------|-------------------|
-| Annual Return | 132.96% | 93.38% |
-| Max Drawdown | -13.60% | -20.44% |
-| Sharpe Ratio | 2.80 | 2.00 |
-| Sortino Ratio | 3.95 | 2.84 |
+| Annual Return | 151.84% | 104.87% |
+| Max Drawdown | -14.85% | -22.24% |
+| Sharpe Ratio | 2.81 | 2.00 |
+| Sortino Ratio | 3.96 | 2.85 |
 
 ## Project Structure
 
