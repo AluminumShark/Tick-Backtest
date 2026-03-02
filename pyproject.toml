@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/Tick-Backtest"
+Homepage = "https://github.com/AluminumShark/Tick-Backtest"
 
 [tool.uv]
 dev-dependencies = [
